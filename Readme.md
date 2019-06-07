@@ -204,4 +204,45 @@ Javascript learning notes
 
 
 
-      
+9. Making monodb calls from javascript at Node.js server side
+
+   Example, Find documents with the address "Park Lane 38":
+
+        var MongoClient = require('mongodb').MongoClient;
+        var url = "mongodb://localhost:27017/";
+
+        MongoClient.connect(url, function(err, db) {
+          if (err) throw err;
+          var dbo = db.db("mydb");
+          var query = { address: "Park Lane 38" };
+          dbo.collection("customers").find(query).toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            db.close();
+          });
+        }); 
+
+
+    to test above script, save it in a file called "demo_mono.js", and Run "demo_mono.js":
+
+         C:\Users\Your Name>node demo_mongodb_query.js 
+
+    The results would look like:
+
+        [
+         { _id: 58fdbf5c0ef8a50b4cdd9a8e , name: 'Ben', address: 'Park Lane 38' }
+        ]
+
+
+
+    If we change the query to search all address start with "S" :
+
+        var query = { address: /^S/ };
+
+        The results would look like:
+
+        [
+            { _id: 58fdbf5c0ef8a50b4cdd9a8b , name: 'Richard', address: 'Sky st 331' },
+            { _id: 58fdbf5c0ef8a50b4cdd9a91 , name: 'Viola', address: 'Sideway 1633' }
+        ]
+
