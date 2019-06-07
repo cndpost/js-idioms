@@ -93,4 +93,15 @@ Javascript learning notes
         e.g.   var obj = {"key1":"value1"},
         we can access as obj.key1 which has a string value of "value1", or we can have the same string value at obj["key1"] 
 
-        
+
+5. Javascript built-in functions. Frequently used ones:
+
+    date time:
+    var datetime = new Date();
+
+    math functions:
+
+    Math.max(); Math.min(); Math.round(); Math.random()  (it gives float value between 0 and 1); 
+    Math.ceil(); Math.floor()
+
+    
