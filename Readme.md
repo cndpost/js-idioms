@@ -128,7 +128,29 @@ Javascript learning notes
       // Send request
       request.send()
 
+7. Making SQL server connection calls from Javascript.
 
+   This is possible, but a security risk due to connection string is exposed:
+
+    Example as follws, it uses ActiveXObject("adodb.connection") and  ActiveXObject("adodb.recordset")  :
+
+    <script>
+      var objConnection = new ActiveXObject("adodb.connection");
+      var strConn = "driver={sql server};server=QITBLRQIPL030;database=adventureworks;uid=sa;password=12345";
+      objConnection.Open(strConn);
+      var rs = new ActiveXObject("ADODB.Recordset");
+      var strQuery = "SELECT * FROM  Person.Address";
+      rs.Open(strQuery, objConnection);
+      rs.MoveFirst();
+      while (!rs.EOF) {
+          document.write(rs.fields(0) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+          document.write(rs.fields(1) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+          document.write(rs.fields(2) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ");
+          document.write(rs.fields(3) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ");
+          document.write(rs.fields(4) + "<br/>");
+          rs.movenext();
+      }
+    </script>
 
 
       
