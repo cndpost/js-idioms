@@ -152,5 +152,56 @@ Javascript learning notes
       }
     </script>
 
+8. Making SQL server connection calls from Javascript at Node.js server side
+
+    This needs to install mssql module for npm:
+
+      npm install mssql
+
+    then you can use following sample code server.js to make the SQL connection and query calls and send the
+    results back to front using the express routing.  The call URL would be http://localhost:5000
+
+     Server.js
+
+        var express = require('express');
+        var app = express();
+
+        app.get('/', function (req, res) {
+          
+            var sql = require("mssql");
+
+            // config for your database
+            var config = {
+                user: 'sa',
+                password: 'mypassword',
+                server: 'localhost', 
+                database: 'SchoolDB' 
+            };
+
+            // connect to your database
+            sql.connect(config, function (err) {
+            
+                if (err) console.log(err);
+
+                // create Request object
+                var request = new sql.Request();
+                  
+                // query to the database and get the records
+                request.query('select * from Student', function (err, recordset) {
+                    
+                    if (err) console.log(err)
+
+                    // send records as a response
+                    res.send(recordset);
+                    
+                });
+            });
+        });
+
+        var server = app.listen(5000, function () {
+            console.log('Server is running..');
+        });
+
+
 
       
