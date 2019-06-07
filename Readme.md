@@ -104,4 +104,31 @@ Javascript learning notes
     Math.max(); Math.min(); Math.round(); Math.random()  (it gives float value between 0 and 1); 
     Math.ceil(); Math.floor()
 
-    
+
+6. Making rest API calls from Javascript. 
+
+   This is accomplished through a class called XMLHttpRequest(). The request.open() pass in an URL and a GET/POST method, and the
+   response is in this.response:
+
+      var request = new XMLHttpRequest();
+      var URL = "https://api.google.com";
+      request.open("GET", URL, true);
+
+      //prepare the call back handler function
+      request.onload = function () {
+        // Begin accessing JSON data here
+        var data = JSON.parse(this.response)
+
+        data.forEach(movie => {
+          // Log each movie's title
+          console.log(movie.title)
+          })
+      }
+
+      // Send request
+      request.send()
+
+
+
+
+      
