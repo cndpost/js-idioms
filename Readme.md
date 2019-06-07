@@ -2,9 +2,22 @@ Javascript learning notes
 
 1. Debugging tools
 
-   Browser comes with following debugging tools:
+   1.1 Browser comes with following debugging tools:
+   
+   Ctrl-Shift-I to see the console output using following functions:
 
+   console.group()
+    console.log()
+    console.warn()
+    console.error()
+    console.info()
+   console.groupEnd()
 
+  1.2 Simple dialog can be written using:
+     alert()
+
+  1.3 More complicated code can be traced using breakpoints
+    
 
 2. Include, import and reference to other files locally or from internet
 
@@ -27,14 +40,15 @@ Javascript learning notes
 
        a) Javascript import modules from another javascript file, such as REACT:
 
-                   import REACT from ./react;
-                   import REACT-DOM from ./react-dom;
+                   import REACT from "./react";
+                   import REACT-DOM from "./react-dom";
           
        Javascript functions and variables are local to the file it is defined. Not accesible to other files
        unless it is explicitly exported from the source file, and explicitly imported from the target file.
 
-       If a HTML files contains several javascript file like above 2.1). They are accessible by using the "this."
-       prefix which is the parent object representing the parent page which includes all those script files. 
+       If a HTML files contains several javascript file like above 2.1). Functions defined in different files are muaccessible 
+       only if all scripts are defined in the <body> section instead of in the <header> section of the hosting HTML file. Or
+       you have to use jquery prefix which is the parent object representing the parent page which includes all those script files. 
 
       b) HTML file include javascript modules which has explicitly exported funsctions or variables:
 
@@ -43,4 +57,40 @@ Javascript learning notes
          this path is relative to the HTML on the web page and must be served from web server. It does not work if the 
          HTML and this javscript module file is downloaded locally to the browsers machine. 
 
- 
+ 3. Generic steps to create reusable react modules for an application:
+
+     3.1) create a login module:
+       npx create-react-app login
+       cd login
+       npm start
+       npm run build
+
+       deploy to production web server for hosting
+
+     3.2) create a database create/read/update/delete module:
+       npx create-react-app database
+
+     3.3) write a view model using HTML/CSS/Javascript events handlers
+
+     3.4) write a controller module for all those events handlers  
+
+     3.5) create a project at firebase as login back end and database back end
+
+
+
+4. Quick cheetsheet for Javascript syntax:
+
+   4.1 Javascript object natively has a value of type like {"key1":"value1",...,"key2":"value2"}
+
+   4.2 Javascript object need a JSON.parser() to convert a string value to object:
+
+        var obj = JSON.parser('{"key1":"value1",...,"key2":"value2"});
+   
+   4.3 The reverse is object need a JSON.stringfy() function to serialize to a string:  JSON.stringfy(obj) => '{"key1":"value1",...,"key2":"value2"}
+   
+   4.4 key names can be used to access child element. But key as string need bracket [] to be used to access child element:
+
+        e.g.   var obj = {"key1":"value1"},
+        we can access as obj.key1 which has a string value of "value1", or we can have the same string value at obj["key1"] 
+
+        
