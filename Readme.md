@@ -237,12 +237,170 @@ Javascript learning notes
 
     If we change the query to search all address start with "S" :
 
-        var query = { address: /^S/ };
+ 
+ 10. Implement REST API using javascript:
+     The router part is done by Express, The request and response are passing JSON natively:
 
-        The results would look like:
+      Example. (from: https://www.tutorialspoint.com/nodejs/nodejs_restful_api.htm ). Suppose we have following sample data need to exchange between client and server. It is stored in a file "user.js" in the server :
 
-        [
-            { _id: 58fdbf5c0ef8a50b4cdd9a8b , name: 'Richard', address: 'Sky st 331' },
-            { _id: 58fdbf5c0ef8a50b4cdd9a91 , name: 'Viola', address: 'Sideway 1633' }
-        ]
+
+       10.1 Typical data to be exchanged by REST API:
+
+            {
+              "user1" : {
+                  "name" : "mahesh",
+                  "password" : "password1",
+                  "profession" : "teacher",
+                  "id": 1
+              },
+              
+              "user2" : {
+                  "name" : "suresh",
+                  "password" : "password2",
+                  "profession" : "librarian",
+                  "id": 2
+              },
+              
+              "user3" : {
+                  "name" : "ramesh",
+                  "password" : "password3",
+                  "profession" : "clerk",
+                  "id": 3
+              }
+          }
+
+
+        10.2  Based on this information we are going to provide following RESTful APIs.
+          
+          Sr.No. 	URI 	      HTTP Method 	      POST body 	      Result
+          1     	listUsers 	GET 	              empty 	          Show list of all the users.
+          2 	    addUser 	  POST 	              JSON String 	    Add details of new user.
+          3 	    deleteUser 	DELETE 	            JSON String 	    Delete an existing user.
+          4 	    :id 	      GET 	              empty 	          Show details of a user.
+
+
+
+        10.3  Following code will implement the "listUsers":
+
+                var express = require('express');
+                var app = express();
+                var fs = require("fs");
+
+                app.get('/listUsers', function (req, res) {
+                  fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
+                      console.log( data );
+                      res.end( data );
+                  });
+                })
+
+                var server = app.listen(8081, function () {
+                  var host = server.address().address
+                  var port = server.address().port
+                  console.log("Example app listening at http://%s:%s", host, port)
+                })
+
+        10.4 Following code will implement the "addUser":
+        
+         Data to be added: 
+
+                user = {
+                  "user4" : {
+                      "name" : "mohit",
+                      "password" : "password4",
+                      "profession" : "teacher",
+                      "id": 4
+                  }
+                }
+
+
+         Code to do the "addUser":
+
+                var express = require('express');
+                var app = express();
+                var fs = require("fs");
+
+                var user = {
+                  "user4" : {
+                      "name" : "mohit",
+                      "password" : "password4",
+                      "profession" : "teacher",
+                      "id": 4
+                  }
+                }
+
+                app.post('/addUser', function (req, res) {
+                  // First read existing users.
+                  fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
+                      data = JSON.parse( data );
+                      data["user4"] = user["user4"];
+                      console.log( data );
+                      res.end( JSON.stringify(data));
+                  });
+                })
+
+                var server = app.listen(8081, function () {
+                  var host = server.address().address
+                  var port = server.address().port
+                  console.log("Example app listening at http://%s:%s", host, port)
+                })
+
+
+       10.5  Following code will implement the ":Id" REST API to list the details of a particular user:
+
+                var express = require('express');
+                var app = express();
+                var fs = require("fs");
+
+                app.get('/:id', function (req, res) {
+                  // First read existing users.
+                  fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
+                      var users = JSON.parse( data );
+                      var user = users["user" + req.params.id] 
+                      console.log( user );
+                      res.end( JSON.stringify(user));
+                  });
+                })
+
+                var server = app.listen(8081, function () {
+                  var host = server.address().address
+                  var port = server.address().port
+                  console.log("Example app listening at http://%s:%s", host, port)
+                })
+
+
+       10.6     Following code will implement the "DeleteUser" REST API :
+
+                var express = require('express');
+                var app = express();
+                var fs = require("fs");
+
+                var id = 2;
+
+                app.delete('/deleteUser', function (req, res) {
+                  // First read existing users.
+                  fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
+                      data = JSON.parse( data );
+                      delete data["user" + 2];
+                      
+                      console.log( data );
+                      res.end( JSON.stringify(data));
+                  });
+                })
+
+                var server = app.listen(8081, function () {
+                  var host = server.address().address
+                  var port = server.address().port
+                  console.log("Example app listening at http://%s:%s", host, port)
+                })
+
+
+
+
+
+
+        10.7  All above code can be excuted by saving the code into server.js and have following command to launch the service:
+
+                  node  server.js
+
+
 
