@@ -368,7 +368,7 @@ Javascript learning notes
                 })
 
 
-       10.6     Following code will implement the "DeleteUser" REST API :
+       10.6     Following code will implement the "DeleteUser" REST API to delete "User2":
 
                 var express = require('express');
                 var app = express();
@@ -401,6 +401,46 @@ Javascript learning notes
         10.7  All above code can be excuted by saving the code into server.js and have following command to launch the service:
 
                   node  server.js
+
+              The way to test the "listUsers" would be:
+
+                http://localhost:8081/listUsers
+
+              The way to test the "addUser" would be:
+
+                http://localhost:8081/addUser
+
+
+              The way to test getting the details of user "2" would be:
+
+                http://localhost:8081/2
+
+              The way to test getting the "deleteUser" would be:
+
+                http://localhost:8081/deleteUser
+
+
+
+              If using the tool Postman to do the test, the methods of performing above action would be:
+
+                        GET
+                        POST
+                        GET
+                        DELETE
+
+
+
+       10.8 More exercises would be to modify above code to allow add/delete any user by supplying the data/parameter in the 
+            request body.
+
+             Excrecise 1:
+             The code would be look like:
+
+                      data = JSON.parse( data );
+                      delete data["user" + req.params.id];
+  
+             Excercise 2:
+             Also, to add users, instead of using the hard coded data as in 10.4, we use data passed in the request body
 
 
 
