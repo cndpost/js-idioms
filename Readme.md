@@ -272,10 +272,10 @@ Javascript learning notes
 
         10.2  Based on this information we are going to provide following RESTful APIs.
           
-          Sr.No.      URI          HTTP Method 	      POST body         Result
+          Sr.No.      URI          HTTP Method        POST body         Result
           1           listUsers    GET                empty             Show list of all the users.
           2           addUser      POST               JSON String       Add details of new user.
-          3           deleteUser   DELETE              JSON String      Delete an existing user.
+          3           deleteUser   DELETE             JSON String       Delete an existing user.
           4           :id          GET                empty             Show details of a user.
 
 
