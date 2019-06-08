@@ -1,20 +1,18 @@
       var express = require('express');
       var app = express();
       var fs = require("fs");
-      var saveData;
-
-      app.get('/listUsers', function (req, res) {
-          fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
-                 console.log( data );
-                 res.end( data );
-                });
-      })
-
-  
       var bodyParser = require('body-parser')    
       app.use(bodyParser.urlencoded({extended: true }));
       app.use(bodyParser.json());
 
+      app.get('/listUsers', function (req, res) {
+         // First read existing users.
+         fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
+                 console.log( data );
+                 res.end( data );
+                });
+      })  
+  
       app.post('/addUser', function (req, res) {
         // First read existing users.
         fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
@@ -24,18 +22,9 @@
             console.log( data );
             res.end( JSON.stringify(data));
   
-            const jsonString = JSON.stringify(data);
-            fs.writeFile( __dirname + "/" + "users.json", jsonString, err => {
-              if (err) {
-                  console.log('Error writing file', err)
-              } else {
-                  console.log('Successfully wrote file')
-              }
-            })
-    
+            //write the changes back
+            saveData(data);
         });
-
-
       })
 
       app.get('/:id', function (req, res) {
@@ -56,18 +45,10 @@
             console.log(req.body);
             console.log( data );
             res.end( JSON.stringify(data));
-
-            const jsonString = JSON.stringify(data);
-            fs.writeFile( __dirname + "/" + "users.json", jsonString, err => {
-              if (err) {
-                  console.log('Error writing file', err)
-              } else {
-                  console.log('Successfully wrote file')
-              }
-            })
-    
+             
+            //write the changes back
+            saveData(data);
         });
-
       })
 
       var server = app.listen(8081, function () {
@@ -76,3 +57,14 @@
          console.log("Example app listening at http://%s:%s", host, port)
       })
 
+      function saveData(data)
+      {
+        const jsonString = JSON.stringify(data);
+        fs.writeFile( __dirname + "/" + "users.json", jsonString, err => {
+          if (err) {
+              console.log('Error writing file', err)
+          } else {
+              console.log('Successfully wrote file')
+          }
+        })
+      }
