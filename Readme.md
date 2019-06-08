@@ -320,10 +320,11 @@ Javascript learning notes
 
          Code to be added to do the "addUser":
 
-       
+      
               var bodyParser = require('body-parser')    
               app.use(bodyParser.urlencoded({extended: true }));
               app.use(bodyParser.json());
+
 
               app.post('/addUser', function (req, res) {
                 // First read existing users.
@@ -370,7 +371,10 @@ Javascript learning notes
   
        10.6     Following code will implement the "DeleteUser" REST API to delete "User2" if the body contains 2:
 
-     
+                var bodyParser = require('body-parser')    
+                app.use(bodyParser.urlencoded({extended: true }));
+                app.use(bodyParser.json());
+
                 app.delete('/deleteUser', function (req, res) {
                   // First read existing users.
                   fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {

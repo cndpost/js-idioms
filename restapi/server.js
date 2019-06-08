@@ -9,10 +9,8 @@
                 });
       })
 
-      //app.use(express.json())
-
-      var bodyParser = require('body-parser')
-      
+  
+      var bodyParser = require('body-parser')    
       app.use(bodyParser.urlencoded({extended: true }));
       app.use(bodyParser.json());
 
