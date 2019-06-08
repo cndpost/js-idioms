@@ -299,6 +299,11 @@ Javascript learning notes
                   console.log("Example app listening at http://%s:%s", host, port)
                 })
 
+          This can be tested using browser to access:    http://localhost:8081/listUsers
+
+          Or can be tested using postman with:   GET     http://localhost:8081/listUsers
+
+
         10.4 Following code will implement the "addUser":
         
          Data to be added: 
@@ -313,45 +318,40 @@ Javascript learning notes
                 }
 
 
-         Code to do the "addUser":
+         Code to be added to do the "addUser":
 
-                var express = require('express');
-                var app = express();
-                var fs = require("fs");
+       
+              var bodyParser = require('body-parser')    
+              app.use(bodyParser.urlencoded({extended: true }));
+              app.use(bodyParser.json());
 
-                var user = {
-                  "user4" : {
+              app.post('/addUser', function (req, res) {
+                // First read existing users.
+                fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
+                    data = JSON.parse( data );
+                    data["user"+req.body.id] = req.body;
+                    console.log(req.body.id);
+                    console.log( data );
+                    res.end( JSON.stringify(data));
+                });
+              })
+
+
+
+              This can not be tested using browser. It can be tested using post man:  POST   http://localhost:8081/addUser
+              And in the body, select RAW, and fill with following data:
+
+                  {
                       "name" : "mohit",
                       "password" : "password4",
                       "profession" : "teacher",
                       "id": 4
                   }
-                }
-
-                app.post('/addUser', function (req, res) {
-                  // First read existing users.
-                  fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
-                      data = JSON.parse( data );
-                      data["user4"] = user["user4"];
-                      console.log( data );
-                      res.end( JSON.stringify(data));
-                  });
-                })
-
-                var server = app.listen(8081, function () {
-                  var host = server.address().address
-                  var port = server.address().port
-                  console.log("Example app listening at http://%s:%s", host, port)
-                })
 
 
        10.5  Following code will implement the ":Id" REST API to list the details of a particular user:
 
-                var express = require('express');
-                var app = express();
-                var fs = require("fs");
-
-                app.get('/:id', function (req, res) {
+                  app.get('/:id', function (req, res) {
                   // First read existing users.
                   fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
                       var users = JSON.parse( data );
@@ -361,39 +361,35 @@ Javascript learning notes
                   });
                 })
 
-                var server = app.listen(8081, function () {
-                  var host = server.address().address
-                  var port = server.address().port
-                  console.log("Example app listening at http://%s:%s", host, port)
-                })
+         This can be tested using browser to access:    http://localhost:8081/2
+
+          Or can be tested using postman with:   GET     http://localhost:8081/2
 
 
-       10.6     Following code will implement the "DeleteUser" REST API to delete "User2":
 
-                var express = require('express');
-                var app = express();
-                var fs = require("fs");
+  
+       10.6     Following code will implement the "DeleteUser" REST API to delete "User2" if the body contains 2:
 
-                var id = 2;
-
+     
                 app.delete('/deleteUser', function (req, res) {
                   // First read existing users.
                   fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
                       data = JSON.parse( data );
-                      delete data["user" + 2];
+                      delete data["user" +  req.body.id];
                       
                       console.log( data );
                       res.end( JSON.stringify(data));
                   });
                 })
 
-                var server = app.listen(8081, function () {
-                  var host = server.address().address
-                  var port = server.address().port
-                  console.log("Example app listening at http://%s:%s", host, port)
-                })
 
 
+           This can not be tested using browser. It can be tested using post man:  POST   http://localhost:8081/deleteUser
+              And in the body, select RAW, JSON and fill with following data in the body:
+
+                  {
+                      "id": 2
+                  }
 
 
 
@@ -406,19 +402,13 @@ Javascript learning notes
 
                 http://localhost:8081/listUsers
 
-              The way to test the "addUser" would be:
-
-                http://localhost:8081/addUser
-
-
+        
               The way to test getting the details of user "2" would be:
 
                 http://localhost:8081/2
 
-              The way to test getting the "deleteUser" would be:
-
-                http://localhost:8081/deleteUser
-
+              The way to test getting the "deleteUser" and "addUser" cannot be done using browser and has to use Postman
+              
 
 
               If using the tool Postman to do the test, the methods of performing above action would be:
@@ -430,17 +420,5 @@ Javascript learning notes
 
 
 
-       10.8 More exercises would be to modify above code to allow add/delete any user by supplying the data/parameter in the 
-            request body.
-
-             Excrecise 1:
-             The code would be look like:
-
-                      data = JSON.parse( data );
-                      delete data["user" + req.params.id];
-  
-             Excercise 2:
-             Also, to add users, instead of using the hard coded data as in 10.4, we use data passed in the request body
-
-
+    
 
