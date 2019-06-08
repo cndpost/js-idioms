@@ -424,7 +424,16 @@ Javascript learning notes
 
 
 
-         10.8 Save the changes data back to users.json.  Following code can save the changed data back to file "./users.json"
+         10.8 Save the changes back to users.json.  Following code can save the changed data back to file "./users.json"
               and this file write function needs to be inside the file read event handler because it needs to wait all the read
               and change functions are done before the writing can be done.    
 
+                    const jsonString = JSON.stringify(data);
+                    fs.writeFile( __dirname + "/" + "users.json", jsonString, err => {
+                      if (err) {
+                          console.log('Error writing file', err)
+                      } else {
+                          console.log('Successfully wrote file')
+                      }
+                    })
+    
